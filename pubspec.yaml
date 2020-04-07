@@ -82,3 +82,5 @@ flutter:
     #登录页
     - assets/images/login_bg.jpg
     - assets/svgs/logo1.svg
+    - assets/svgs/user.svg
+    - assets/svgs/pw.svg
