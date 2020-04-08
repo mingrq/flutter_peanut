@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutterpeanut/model/my_lib/MyPage.dart';
 import 'package:flutterpeanut/model/newoder_lib/NewOrderPage.dart';
 import 'package:flutterpeanut/model/overoder_lib/OverOrderPage.dart';
+import 'package:flutterpeanut/values/color/colors.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,24 +22,36 @@ class _HomePageState extends State<HomePage> {
     initViewPage();
     initNav();
     return Scaffold(
+
       body: PageView.builder(
         itemCount: _pages.length,
         itemBuilder: (context, index) => _pages[_current_index],
         onPageChanged: _pageChange,
-        physics: NeverScrollableScrollPhysics(),//viewPage禁止左右滑动
+        physics: NeverScrollableScrollPhysics(),
+        //viewPage禁止左右滑动
         controller: PageController(initialPage: 0),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        type: BottomNavigationBarType.fixed,
-        items: _bottomNavs,
-        onTap: (int index) {
-          setState(() {
-            this._current_index = index;
-          });
-        },
-        currentIndex: _current_index,
-
+      bottomNavigationBar: Theme(
+        data: ThemeData(
+          brightness: Brightness.light,
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.white,
+          selectedFontSize: 14,
+          unselectedFontSize: 14,
+          iconSize: 20,
+          selectedItemColor: PeanutColors.peanut_yellow_1,
+          type: BottomNavigationBarType.fixed,
+          items: _bottomNavs,
+          onTap: (int index) {
+            setState(() {
+              this._current_index = index;
+            });
+          },
+          currentIndex: _current_index,
+        ),
       ),
     );
   }
@@ -49,20 +62,46 @@ class _HomePageState extends State<HomePage> {
   void initNav() {
     _bottomNavs = new List<BottomNavigationBarItem>();
     BottomNavigationBarItem new_order = new BottomNavigationBarItem(
-        icon: _current_index == 0
-            ? SvgPicture.asset("assets/svgs/new_p.svg")
-            : SvgPicture.asset("assets/svgs/new.svg"),
-        title: Text("新订单"));
+      icon: _current_index == 0
+          ? Container(
+              height: 30,
+              width: 30,
+              child: SvgPicture.asset("assets/svgs/new_p.svg"),
+            )
+          : Container(
+              height: 30,
+              width: 30,
+              child: SvgPicture.asset("assets/svgs/new.svg"),
+            ),
+      title: Text("新订单"),
+    );
     BottomNavigationBarItem over = new BottomNavigationBarItem(
         icon: _current_index == 1
-            ? SvgPicture.asset("assets/svgs/over_p.svg")
-            : SvgPicture.asset("assets/svgs/over.svg"),
+            ? Container(
+                height: 30,
+                width: 30,
+                child: SvgPicture.asset("assets/svgs/over_p.svg"),
+              )
+            : Container(
+                height: 30,
+                width: 30,
+                child: SvgPicture.asset("assets/svgs/over.svg"),
+              ),
         title: Text("已完结"));
     BottomNavigationBarItem my = new BottomNavigationBarItem(
-        icon: _current_index == 2
-            ? SvgPicture.asset("assets/svgs/my_p.svg")
-            : SvgPicture.asset("assets/svgs/my.svg"),
-        title: Text("我的"));
+      icon: _current_index == 2
+          ? Container(
+              height: 30,
+              width: 30,
+              child: SvgPicture.asset("assets/svgs/my_p.svg"),
+            )
+          : Container(
+              height: 30,
+              width: 30,
+              child: SvgPicture.asset("assets/svgs/my.svg"),
+            ),
+      title: Text("我的"),
+    );
     _bottomNavs.add(new_order);
     _bottomNavs.add(over);
     _bottomNavs.add(my);

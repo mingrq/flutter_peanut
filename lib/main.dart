@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterpeanut/model/home_lib/home_page.dart';
 import 'package:flutterpeanut/model/login_lib/LoginPage.dart';
 import 'package:flutterpeanut/values/color/colors.dart';
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primaryColor: PeanutColors.peanut_black_1,
       ),
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }

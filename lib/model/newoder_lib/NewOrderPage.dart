@@ -15,7 +15,9 @@ class _NewOrderPage extends State<NewOrderPage>{
         title: Text("新订单"),
         centerTitle: true
       ),
-      body:Text("新订单")
+      body:ListView(
+
+      )
 
     );
   }
