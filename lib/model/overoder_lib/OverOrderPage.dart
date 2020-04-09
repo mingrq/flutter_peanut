@@ -31,7 +31,6 @@ class _OverOrderPage extends State<OverOrderPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    log("已完结");
     return Scaffold(
       appBar: AppBar(
         title: Text("已完结"),
