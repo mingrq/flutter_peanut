@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,29 +9,36 @@ import 'package:flutterpeanut/model/overoder_lib/OverOrderPage.dart';
 import 'package:flutterpeanut/values/color/colors.dart';
 
 class HomePage extends StatefulWidget {
+  HomePage({Key key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List _bottomNavs = null; //底部导航集合
   int _current_index = 0; //当前选中项
-  List _pages = null; //页面集合
+  List _pages = List(); //页面集合
+  PageController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController(initialPage: 0);
+    initViewPage();
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    initViewPage();
-    initNav();
-    return Scaffold(
 
+    return Scaffold(
       body: PageView.builder(
         itemCount: _pages.length,
-        itemBuilder: (context, index) => _pages[_current_index],
+        itemBuilder: (context, index) => _pages[index],
         onPageChanged: _pageChange,
         physics: NeverScrollableScrollPhysics(),
         //viewPage禁止左右滑动
-        controller: PageController(initialPage: 0),
+        controller: _controller,
       ),
       bottomNavigationBar: Theme(
         data: ThemeData(
@@ -44,12 +53,8 @@ class _HomePageState extends State<HomePage> {
           iconSize: 20,
           selectedItemColor: PeanutColors.peanut_yellow_1,
           type: BottomNavigationBarType.fixed,
-          items: _bottomNavs,
-          onTap: (int index) {
-            setState(() {
-              this._current_index = index;
-            });
-          },
+          items: initNav(),
+          onTap: _onTap,
           currentIndex: _current_index,
         ),
       ),
@@ -59,8 +64,8 @@ class _HomePageState extends State<HomePage> {
   /**
    * 初始化导航
    */
-  void initNav() {
-    _bottomNavs = new List<BottomNavigationBarItem>();
+  List initNav() {
+    List _bottomNavs = new List<BottomNavigationBarItem>();
     BottomNavigationBarItem new_order = new BottomNavigationBarItem(
       icon: _current_index == 0
           ? Container(
@@ -105,26 +110,34 @@ class _HomePageState extends State<HomePage> {
     _bottomNavs.add(new_order);
     _bottomNavs.add(over);
     _bottomNavs.add(my);
+    return _bottomNavs;
   }
 
   /**
    * 初始化viewpager
    */
   void initViewPage() {
-    _pages = new List();
+    if (_pages == null) {
+      _pages = new List();
+    }
     _pages.add(NewOrderPage());
     _pages.add(OverOrderPage());
     _pages.add(MyPage());
+  }
+
+  void _onTap(int index) {
+    setState(() {
+      _current_index = index;
+    });
+    _controller.jumpToPage(index);
   }
 
   /**
    * 页面切换控制器
    */
   void _pageChange(int index) {
-    if (index != _current_index) {
-      setState(() {
-        _current_index = index;
-      });
-    }
+    setState(() {
+      _current_index = index;
+    });
   }
 }
